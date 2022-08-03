@@ -14,7 +14,6 @@ export class ListsGuard implements CanActivate {
   }
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
-    const targetUrl: string = state.url;
     const todoLists: TodoList[] = await firstValueFrom(this.stateService.getAllLists());
 
     if (todoLists == null || todoLists.length === 0) {
