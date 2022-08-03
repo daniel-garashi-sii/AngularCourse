@@ -1,0 +1,48 @@
+h2 {
+  color: orange;
+}
+
+.todo-list-cards-display {
+  display: flex;
+  flex-flow: row wrap;
+  /*display: grid;
+  grid-template-columns: repeat(6, 1fr);*/
+}
+
+.todo-list-card {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 10px 0 40px; /*(top right bottom left)*/
+  height: 200px;
+  width: 200px;
+  border-radius: 0.5rem;
+  border: 3px solid rgba(131, 125, 125, 0.16);
+  background: rgba(255, 255, 255, 0.67);
+  user-select: none;
+  cursor: pointer;
+}
+
+.todo-list-card:hover {
+  color: white;
+  background-color: #bdd7f5
+}
+
+.todo-list-card:active {
+  background-color: rgba(104, 112, 231, 0.3)
+}
+
+.data {
+  padding: 15px;
+  font-weight: inherit;
+  font-family: Dubai, serif;
+  font-style: italic;
+  font-size: 30px;
+}
+
+mat-icon {
+  height: auto;
+  width: auto;
+  font-size: 50px;
+}

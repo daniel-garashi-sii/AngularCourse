@@ -1,0 +1,40 @@
+<ng-container *ngIf="{
+  todoList: todoList$ | async,
+  selectedColor: selectedColor$ | async
+} as myObs">
+
+  <div class="edit-list-form" [formGroup]="todoListGroup">
+    <div *ngIf="control('caption') as field">
+      <label>Caption:</label>
+      <input type="text" [formControl]="field">
+      <app-errors-presenter [errors]="field.errors"></app-errors-presenter>
+    </div>
+
+    <div *ngIf="control('description') as field">
+      <label>Description:</label>
+      <input type="text" [formControl]="field">
+      <app-errors-presenter [errors]="field.errors"></app-errors-presenter>
+    </div>
+
+    <label>Icon:</label>
+    <select name="icons" *ngIf="control('icon') as field" [formControl]="field">
+      <!--<mat-select-trigger>
+        <mat-icon>shopping_cart</mat-icon>
+      </mat-select-trigger>-->
+      <option *ngFor="let icon of icons" value="{{icon}}"><mat-icon>{{icon}}</mat-icon></option>
+    </select>
+
+    <label>Color:</label>
+    <select name="colors" *ngIf="control('color') as field"
+      [formControl]="field"> <!--[style.color]="myObs.selectedColor"-->
+      <option *ngFor="let color of colors"
+              [style.color]="color.code"
+              value="{{color.code}}">
+        {{color.name}}
+      </option>
+    </select>
+
+    <button [disabled]="!todoListGroup.valid" class="save-btn" (click)="saveTodoList()">Save</button>
+  </div>
+</ng-container>
+

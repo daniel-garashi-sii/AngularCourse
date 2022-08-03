@@ -1,0 +1,40 @@
+<div class="header">
+  <h1>{{title}}</h1>
+  <h2>by {{developerName}}</h2>
+  <h3>{{today | date: 'shortDate'}}</h3>
+
+  <div>
+    <button (click)="createNewList()">Create new list</button>
+    <button>View all lists</button>
+    <button>View all items</button>
+  </div>
+</div>
+
+<ng-container *ngIf="(appState$ | async) as appState">
+  <div class="data_content">
+    <div class="data_info">
+      <div class="data">
+        <mat-icon color="primary">list</mat-icon>
+      </div>
+      <div class="data"></div>
+      <div class="data count-data">{{appState.todoLists.length}}</div>
+      <div class="data">Lists</div>
+    </div>
+    <div class="data_info">
+      <div class="data">
+        <mat-icon color="primary">done_all</mat-icon>
+      </div>
+      <div class="data count-data">{{appState.todoItems.length}}</div>
+      <div class="data">Todo Items</div>
+    </div>
+    <div class="data_info">
+      <div class="data">
+        <mat-icon color="primary">hourglass_empty</mat-icon>
+      </div>
+      <div class="data count-data">{{(getAllNotCompletedItems() | async)!.length}}</div>
+      <div class="data">Active Items</div>
+    </div>
+  </div>
+</ng-container>
+
+

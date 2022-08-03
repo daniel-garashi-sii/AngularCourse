@@ -1,0 +1,66 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.1em;
+  margin: 10px 0;
+  padding: 8px 0;
+  color: #d8d9e7;
+  background: #1e247f;
+}
+
+h2{
+  font-style: italic;
+}
+
+button {
+  margin: 8px;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: white;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+button:hover {
+  color: white;
+  background-color: #6870e7
+}
+
+button:active{
+  background-color: rgba(104, 112, 231, 0.3)
+}
+
+.data_content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+/*  align-items: flex-end;*/
+}
+
+.data_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 15px 0 80px; /*(top right bottom left)*/
+  height: 120px;
+  width: 120px;
+  border-radius: 0.5rem;
+  border: 3px solid rgba(131, 125, 125, 0.16);
+}
+
+.data {
+  display: flex;
+  flex-direction: column;
+  margin: 2px;
+  font-size: 17px;
+  font-weight: bold;
+  font-family: "Dubai Light", serif;
+}
+
+.count-data{
+  color: #8282ff;
+  padding: 10px;
+  font-size: 30px;
+}

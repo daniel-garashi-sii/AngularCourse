@@ -1,0 +1,21 @@
+<ng-container *ngIf="{
+  todoLists: todoLists$ | async
+} as myObs">
+
+  <h2>Lists</h2>
+
+  <div class="todo-list-cards-display">
+
+    <div class="todo-list-card" *ngFor="let todoList of myObs.todoLists" (click)="selectedList(todoList.id)">
+      <mat-icon [style.color]="todoList.color">{{todoList.icon}}</mat-icon>
+      <div class="data">{{todoList.caption}}</div>
+    </div>
+
+    <div class="todo-list-card" (click)="addNewList()">
+      <mat-icon color="primary">add</mat-icon>
+      <label class="data">New...</label>
+    </div>
+
+  </div>
+
+</ng-container>
