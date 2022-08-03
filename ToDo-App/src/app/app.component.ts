@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AppState} from "./core/models/app-state";
-import {TodoList} from "./core/models/todo-list";
-import {TodoItem} from "./core/models/todo-item";
+import {AppState} from "./core/models/app.state";
 import {StateService} from "./core/services/state.service";
 
 @Component({

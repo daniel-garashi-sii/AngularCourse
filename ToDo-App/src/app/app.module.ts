@@ -13,6 +13,9 @@ import { ListEditComponent } from './components/list-edit/list-edit.component';
 import { ListComponent } from './components/list/list.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import {MatButtonModule} from "@angular/material/button";
+import {ReactiveFormsModule} from "@angular/forms";
+import { ErrorsPresenterComponent } from './components/errors-presenter/errors-presenter.component';
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -24,14 +27,17 @@ import {MatButtonModule} from "@angular/material/button";
     ListEditComponent,
     ListComponent,
     PageNotFoundComponent,
+    ErrorsPresenterComponent,
   ],
-  imports: [
-    BrowserModule,
-    MatIconModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    MatButtonModule
-  ],
+    imports: [
+        BrowserModule,
+        MatIconModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        MatButtonModule,
+        ReactiveFormsModule,
+        MatSelectModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
