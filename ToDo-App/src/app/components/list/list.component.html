@@ -1,1 +1,33 @@
-<p>list works!</p>
+<ng-container *ngIf="{
+  todoList: todoList$ | async,
+  todoItems: todoItems$ | async
+} as myObs">
+
+  <div class="todo-list-details-container">
+    <div class="todo-list-caption">
+      <h2 [style.color]="myObs.todoList?.color">Lists > {{ myObs.todoList?.caption}}</h2>
+    </div>
+    <div class="todo-list-icon-desc-actions-container">
+      <div class="todo-list-icon">
+        <mat-icon [style.color]="myObs.todoList?.color">{{myObs.todoList?.icon}}</mat-icon>
+      </div>
+      <div class="todo-list-desc-actions-container">
+        <div class="todo-list-description">
+          {{myObs.todoList?.description}}
+        </div>
+        <div class="todo-list-actions">
+          <button (click)="createNewTodoList()">New List...</button>
+          <button (click)="editListDetails(myObs.todoList!.id)">Edit...</button>
+          <button class="delete-btn" (click)="deleteTodoList(myObs.todoList!.id)">Delete</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="todo-list-items">
+    <ng-container *ngFor="let item of myObs.todoItems">
+      <app-todo-item-presenter [caption]="item.caption" [isCompleted]="item.isCompleted" (completedEmitter)="markAsCompletedItem(item.id)"></app-todo-item-presenter>
+    </ng-container>
+  </div>
+</ng-container>

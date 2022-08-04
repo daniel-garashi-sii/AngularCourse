@@ -1,7 +1,3 @@
-h2 {
-  color: orange;
-}
-
 .todo-list-cards-display {
   display: flex;
   flex-flow: row wrap;
@@ -44,5 +40,5 @@ h2 {
 mat-icon {
   height: auto;
   width: auto;
-  font-size: 50px;
+  font-size: 60px;
 }

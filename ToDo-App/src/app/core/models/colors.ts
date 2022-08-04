@@ -1,6 +1,7 @@
 import {Color} from "./color";
 
 export const COLORS: Color[] = [
+  {name: 'black', code: '#000000'},
   {name: 'red', code: '#FF0000FF'},
   {name: 'yellow', code: '#FFFF00FF'},
   {name: 'blue', code: '#0000FFFF'},

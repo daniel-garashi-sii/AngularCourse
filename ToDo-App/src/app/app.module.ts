@@ -16,6 +16,8 @@ import {MatButtonModule} from "@angular/material/button";
 import {ReactiveFormsModule} from "@angular/forms";
 import { ErrorsPresenterComponent } from './components/errors-presenter/errors-presenter.component';
 import {MatSelectModule} from "@angular/material/select";
+import { TodoItemPresenterComponent } from './components/todo-item-presenter/todo-item-presenter.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -28,16 +30,18 @@ import {MatSelectModule} from "@angular/material/select";
     ListComponent,
     PageNotFoundComponent,
     ErrorsPresenterComponent,
+    TodoItemPresenterComponent,
   ],
-    imports: [
-        BrowserModule,
-        MatIconModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        MatButtonModule,
-        ReactiveFormsModule,
-        MatSelectModule
-    ],
+  imports: [
+    BrowserModule,
+    MatIconModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatCheckboxModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

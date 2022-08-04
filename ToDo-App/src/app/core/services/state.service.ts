@@ -18,7 +18,7 @@ export class StateService {
 
   initAppState(): void {
     let lists: TodoList[] = [];
-    let l1: TodoList = {id: 1, caption: 'Shopping', description: 'Shopping list', color: '#0000FFFF', icon: 'shopping_cart'};
+    let l1: TodoList = {id: 1, caption: 'Shopping', description: 'Things to buy on our next stop to the supermarket', color: '#0000FFFF', icon: 'shopping_cart'};
     let l2: TodoList = {id: 2, caption: 'Work',description: 'Work list', color: '#008000FF', icon: 'work'};
     let l3: TodoList = {id: 3, caption: 'Fun', description: 'Fun list',color: '#FF00FFFF', icon: 'stars'};
     let l4: TodoList = {id: 4, caption: 'Events', description: 'Events list', color: '#FFA500FF', icon: 'event'};
@@ -27,10 +27,10 @@ export class StateService {
     lists.push(l1);lists.push(l2);lists.push(l3);lists.push(l4);lists.push(l5);
 
     let items: TodoItem[] = [];
-    let item_1: TodoItem = {id: 1, caption: 'item_1', listId: 1, isCompleted: false};
-    let item_2: TodoItem = {id: 2, caption: 'item_2', listId: 1, isCompleted: false};
-    let item_3: TodoItem = {id: 3, caption: 'item_3', listId: 1, isCompleted: false};
-    let item_4: TodoItem = {id: 4, caption: 'item_4', listId: 1, isCompleted: true};
+    let item_1: TodoItem = {id: 1, caption: 'Tomatoes', listId: 1, isCompleted: false};
+    let item_2: TodoItem = {id: 2, caption: 'Sugar', listId: 1, isCompleted: true};
+    let item_3: TodoItem = {id: 3, caption: 'Milk', listId: 1, isCompleted: false};
+    let item_4: TodoItem = {id: 4, caption: 'Water', listId: 1, isCompleted: true};
     items.push(item_1); items.push(item_2); items.push(item_3); items.push(item_4);
 
     let item_5: TodoItem = {id: 5, caption: 'item_5', listId: 2, isCompleted: false};

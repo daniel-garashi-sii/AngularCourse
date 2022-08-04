@@ -25,7 +25,8 @@ export class ListsComponent implements OnInit {
   }
 
   async selectedList(listId: number): Promise<void> {
-    await this.router.navigate(['lists', listId, 'edit']);
+    this.router.navigate(['lists', listId]).then();
+
   }
 
 }

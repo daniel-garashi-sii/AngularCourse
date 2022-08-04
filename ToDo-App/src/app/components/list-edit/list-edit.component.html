@@ -3,6 +3,8 @@
   selectedColor: selectedColor$ | async
 } as myObs">
 
+  <h2>Edit List Details</h2>
+
   <div class="edit-list-form" [formGroup]="todoListGroup">
     <div *ngIf="control('caption') as field">
       <label>Caption:</label>
@@ -17,16 +19,24 @@
     </div>
 
     <label>Icon:</label>
-    <select name="icons" *ngIf="control('icon') as field" [formControl]="field">
-      <!--<mat-select-trigger>
-        <mat-icon>shopping_cart</mat-icon>
-      </mat-select-trigger>-->
-      <option *ngFor="let icon of icons" value="{{icon}}"><mat-icon>{{icon}}</mat-icon></option>
-    </select>
+    <mat-select #selectedIcon
+                disableOptionCentering
+                panelClass="myPanelClass"
+      *ngIf="control('icon') as field" [formControl]="field">
+      <mat-select-trigger>
+        <mat-icon [style.color]="myObs.selectedColor">{{selectedIcon.value}}</mat-icon>
+      </mat-select-trigger>
+      <mat-option *ngFor="let icon of icons" value="{{icon}}">
+        <mat-icon [style.color]="myObs.selectedColor">{{icon}}</mat-icon>
+      </mat-option>
+    </mat-select>
 
     <label>Color:</label>
-    <select name="colors" *ngIf="control('color') as field"
-      [formControl]="field"> <!--[style.color]="myObs.selectedColor"-->
+    <select #selectedColor
+            *ngIf="control('color') as field"
+            [style.color]="myObs.selectedColor"
+            (change)="selectedColor$.next(selectedColor.value)"
+            [formControl]="field">
       <option *ngFor="let color of colors"
               [style.color]="color.code"
               value="{{color.code}}">
@@ -36,5 +46,6 @@
 
     <button [disabled]="!todoListGroup.valid" class="save-btn" (click)="saveTodoList()">Save</button>
   </div>
+
 </ng-container>
 

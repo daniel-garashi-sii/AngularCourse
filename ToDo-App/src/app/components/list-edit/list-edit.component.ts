@@ -2,17 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {StateService} from "../../core/services/state.service";
 import {TodoList} from "../../core/models/todo-list";
-import {BehaviorSubject, count, Observable, switchAll} from "rxjs";
+import {BehaviorSubject, Observable, switchAll} from "rxjs";
 import {map} from "rxjs/operators";
-import {
-  AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  Validator,
-  Validators
-} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {Color} from "../../core/models/color";
 import {COLORS} from "../../core/models/colors";
 import {ICONS} from "../../core/models/icons";
@@ -35,16 +27,12 @@ export class ListEditComponent implements OnInit {
   selectedColor$!: BehaviorSubject<string>;
 
   constructor(private stateService: StateService, private route: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) {
-    this.todoListGroup = this.formBuilder.group({
-      caption: ['', [Validators.required]],
-      description: ['', [Validators.required, Validators.minLength(30), this.minWordsValidation(10)]],
-      icon: ['', [Validators.required]],
-      color: ['', [Validators.required]]
-    });
+    this.buildReactiveForm();
   }
 
   ngOnInit(): void {
-    this.selectedColor$ = new BehaviorSubject<string>('');
+    this.selectedColor = this.colors[0].code;
+    this.selectedColor$ = new BehaviorSubject<string>(this.selectedColor);
 
     const listId$ = this.route.params.pipe(
       map(param => Number(param['id']))
@@ -61,21 +49,32 @@ export class ListEditComponent implements OnInit {
     this.todoList$.subscribe({
       next: todoList => {
         if (todoList != null) {
+          this.selectedColor = todoList.color;
+          this.selectedColor$.next(this.selectedColor);
+
           this.control('caption')?.setValue(todoList.caption);
           this.control('description')?.setValue(todoList.description);
-          this.control('icon')?.setValue(todoList.caption);
-          this.control('color')?.setValue(todoList.caption);
+          this.control('icon')?.setValue(todoList.icon);
+          this.control('color')?.setValue(todoList.color);
         }
       }
     });
   }
 
-  control(name: string): FormControl<any> {
-    const ctrl = this.todoListGroup.get(name)! as FormControl<any>;
-    return ctrl;
+  buildReactiveForm(): void {
+    this.todoListGroup = this.formBuilder.group({
+      caption: ['', [Validators.required]],
+      description: ['', [Validators.required, Validators.minLength(6), this.containsMinWordsValidation(2)]],
+      icon: ['', [Validators.required]],
+      color: ['', [Validators.required]]
+    });
   }
 
-  minWordsValidation(minWords: number): (control: AbstractControl) => null | ValidationErrors {
+  control(name: string): FormControl<any> {
+    return this.todoListGroup.get(name)! as FormControl<any>;
+  }
+
+  containsMinWordsValidation(minWords: number): (control: AbstractControl) => null | ValidationErrors {
     return ctrl => {
       const description = ctrl.value;
       if (typeof (description) !== 'string') return null;
@@ -110,7 +109,7 @@ export class ListEditComponent implements OnInit {
     }
 
     this.todoListGroup.reset();
-
+    await this.router.navigateByUrl('lists');
   }
 
 }
