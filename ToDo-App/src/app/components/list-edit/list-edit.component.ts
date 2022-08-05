@@ -8,6 +8,7 @@ import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, 
 import {Color} from "../../core/models/color";
 import {COLORS} from "../../core/models/colors";
 import {ICONS} from "../../core/models/icons";
+import {TodoListValidators} from "../../validators/todo-list-validators";
 
 @Component({
   selector: 'app-list-edit',
@@ -64,7 +65,7 @@ export class ListEditComponent implements OnInit {
   buildReactiveForm(): void {
     this.todoListGroup = this.formBuilder.group({
       caption: ['', [Validators.required]],
-      description: ['', [Validators.required, Validators.minLength(6), this.containsMinWordsValidation(2)]],
+      description: ['', [Validators.required, Validators.minLength(6), TodoListValidators.containsMinWordsValidation(2)]],
       icon: ['', [Validators.required]],
       color: ['', [Validators.required]]
     });
