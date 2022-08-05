@@ -31,7 +31,13 @@ export class HomeComponent implements OnInit {
 
   async createNewList(): Promise<void> {
     await this.router.navigate(['lists', -1, 'edit']);
-}
+  }
 
+  async gotoTodoLists(): Promise<void> {
+    await this.router.navigateByUrl('lists');
+  }
 
+  async gotoTodoItems(): Promise<void> {
+    await this.router.navigateByUrl('items');
+  }
 }

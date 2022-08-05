@@ -12,23 +12,23 @@
         <mat-icon [style.color]="myObs.todoList?.color">{{myObs.todoList?.icon}}</mat-icon>
       </div>
       <div class="todo-list-desc-actions-container">
-        <ng-container *ngIf="!isDeletionConfirm">
+        <ng-container *ngIf="!isCanDelete">
           <div class="todo-list-description">
             {{myObs.todoList?.description}}
           </div>
           <div class="todo-list-actions">
-            <button (click)="createNewTodoList()">New List...</button>
+            <button (click)="createNewList()">New List...</button>
             <button (click)="editListDetails(myObs.todoList!.id)">Edit...</button>
-            <button class="delete-btn" (click)="isDeleteConfirm()">Delete</button>
+            <button class="delete-btn" (click)="checkAgainBeforeDeletion()">Delete</button>
           </div>
         </ng-container>
-        <ng-container *ngIf="isDeletionConfirm">
+        <ng-container *ngIf="isCanDelete">
           <div class="todo-list-description deletion-confirm-msg">
             Are you sure you want to delete the entire list?
           </div>
           <div class="todo-list-actions">
-            <button class="delete-btn" (click)="isDeleteConfirm()">Cancel</button>
-            <button (click)="deleteTodoList(myObs.todoList!.id)">Delete</button>
+            <button class="delete-btn" (click)="checkAgainBeforeDeletion()">Cancel</button>
+            <button (click)="deleteList(myObs.todoList!.id)">Yes I am sure</button>
           </div>
         </ng-container>
       </div>

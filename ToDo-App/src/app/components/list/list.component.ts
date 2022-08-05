@@ -20,11 +20,11 @@ export class ListComponent implements OnInit {
   todoItems$!: Observable<TodoItem[]>;
   todoItemControl: FormControl;
 
-  isDeletionConfirm: boolean;
+  isCanDelete: boolean;
 
   constructor(private stateService: StateService, private router: Router, private route: ActivatedRoute) {
     this.todoItemControl = new FormControl<string>('', [Validators.required, Validators.minLength(5), TodoListValidators.containsMinWordsValidation(3)]);
-    this.isDeletionConfirm = false;
+    this.isCanDelete = false;
   }
 
   ngOnInit(): void {
@@ -43,11 +43,11 @@ export class ListComponent implements OnInit {
     );
   }
 
-  async createNewTodoList(): Promise<void> {
+  async createNewList(): Promise<void> {
     await this.router.navigate(['lists', -1, 'edit']);
   }
 
-  async deleteTodoList(listId: number): Promise<void> {
+  async deleteList(listId: number): Promise<void> {
     await this.stateService.deleteList(listId);
     await this.router.navigate(['lists']);
   }
@@ -67,8 +67,8 @@ export class ListComponent implements OnInit {
     this.todoItemControl.setValue('');
   }
 
-  isDeleteConfirm(): void{
-    this.isDeletionConfirm = !this.isDeletionConfirm;
+  checkAgainBeforeDeletion(): void{
+    this.isCanDelete = !this.isCanDelete;
   }
 
 }
