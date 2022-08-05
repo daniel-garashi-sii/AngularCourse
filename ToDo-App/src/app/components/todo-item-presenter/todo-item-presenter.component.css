@@ -1,0 +1,18 @@
+:host{
+
+}
+
+.todo-item{
+
+}
+
+.completed{
+  color: rgb(190, 188, 188);
+  text-decoration: line-through;
+  text-decoration-color: #fcb1b1;
+}
+
+.mat-checkbox{
+  margin: 5px;
+  border-color: yellow;
+}

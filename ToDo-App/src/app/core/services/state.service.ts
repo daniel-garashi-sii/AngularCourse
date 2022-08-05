@@ -139,8 +139,8 @@ export class StateService {
   }
 
   async addTodoItem(listId: number, caption: string): Promise<number> {
-    let todoLists: TodoList[] = {...this.appState.todoLists};
-    let todoItems: TodoItem[] = {...this.appState.todoItems};
+    let todoLists: TodoList[] = [...this.appState.todoLists];
+    let todoItems: TodoItem[] = [...this.appState.todoItems];
 
     let todoItem: TodoItem = {
       id: StateService.generateTodoItemId(),

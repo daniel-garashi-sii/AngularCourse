@@ -15,14 +15,16 @@
     <div *ngIf="control('description') as field">
       <label>Description:</label>
       <input type="text" [formControl]="field">
-      <app-errors-presenter [errors]="field.errors"></app-errors-presenter>
+      <div class="error-display-container">
+        <app-errors-presenter [errors]="field.errors"></app-errors-presenter>
+      </div>
     </div>
 
     <label>Icon:</label>
     <mat-select #selectedIcon
                 disableOptionCentering
                 panelClass="myPanelClass"
-      *ngIf="control('icon') as field" [formControl]="field">
+                *ngIf="control('icon') as field" [formControl]="field">
       <mat-select-trigger>
         <mat-icon [style.color]="myObs.selectedColor">{{selectedIcon.value}}</mat-icon>
       </mat-select-trigger>
@@ -47,5 +49,20 @@
     <button [disabled]="!todoListGroup.valid" class="save-btn" (click)="saveTodoList()">Save</button>
   </div>
 
+
 </ng-container>
 
+
+<!--<div class="todo-list-header">title</div>
+  <div class="todo-list-edit-form-container">
+    <div class="form-field">
+      <h3 class="field-name">Caption:</h3>
+      <input type="text">
+    </div>
+    <div class="form-field">
+      <h3 class="field-name">Caption:</h3>
+      <input type="text">
+    </div>
+
+
+  </div>-->

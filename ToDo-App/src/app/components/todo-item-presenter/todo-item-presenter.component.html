@@ -1,0 +1,8 @@
+<mat-checkbox
+  color="primary"
+  (click)="itemCompleted()"
+  [disabled]="isCompleted"
+  [checked]="isCompleted"
+  [class.completed]="isCompleted"
+>{{caption}}
+</mat-checkbox>

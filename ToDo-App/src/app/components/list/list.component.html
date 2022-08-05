@@ -12,14 +12,25 @@
         <mat-icon [style.color]="myObs.todoList?.color">{{myObs.todoList?.icon}}</mat-icon>
       </div>
       <div class="todo-list-desc-actions-container">
-        <div class="todo-list-description">
-          {{myObs.todoList?.description}}
-        </div>
-        <div class="todo-list-actions">
-          <button (click)="createNewTodoList()">New List...</button>
-          <button (click)="editListDetails(myObs.todoList!.id)">Edit...</button>
-          <button class="delete-btn" (click)="deleteTodoList(myObs.todoList!.id)">Delete</button>
-        </div>
+        <ng-container *ngIf="!isDeletionConfirm">
+          <div class="todo-list-description">
+            {{myObs.todoList?.description}}
+          </div>
+          <div class="todo-list-actions">
+            <button (click)="createNewTodoList()">New List...</button>
+            <button (click)="editListDetails(myObs.todoList!.id)">Edit...</button>
+            <button class="delete-btn" (click)="isDeleteConfirm()">Delete</button>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="isDeletionConfirm">
+          <div class="todo-list-description deletion-confirm-msg">
+            Are you sure you want to delete the entire list?
+          </div>
+          <div class="todo-list-actions">
+            <button class="delete-btn" (click)="isDeleteConfirm()">Cancel</button>
+            <button (click)="deleteTodoList(myObs.todoList!.id)">Delete</button>
+          </div>
+        </ng-container>
       </div>
     </div>
 
@@ -27,7 +38,19 @@
 
   <div class="todo-list-items">
     <ng-container *ngFor="let item of myObs.todoItems">
-      <app-todo-item-presenter [caption]="item.caption" [isCompleted]="item.isCompleted" (completedEmitter)="markAsCompletedItem(item.id)"></app-todo-item-presenter>
+      <app-todo-item-presenter [caption]="item.caption" [isCompleted]="item.isCompleted"
+                               (completedEmitter)="markAsCompletedItem(item.id)"></app-todo-item-presenter>
     </ng-container>
+    <div class="add-todo-item-container">
+      <div class="add-todo-item add-todo-item-container">
+        <input [formControl]="todoItemControl" type="text">
+        <button
+          [disabled]="!todoItemControl.valid"
+          (click)="addTodoItem(myObs.todoList!.id)">
+          +
+        </button>
+        <app-errors-presenter [errors]="todoItemControl.errors"></app-errors-presenter>
+      </div>
+    </div>
   </div>
 </ng-container>

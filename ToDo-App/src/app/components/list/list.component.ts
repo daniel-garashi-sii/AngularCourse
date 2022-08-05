@@ -5,6 +5,8 @@ import {Observable, switchAll} from "rxjs";
 import {TodoList} from "../../core/models/todo-list";
 import {StateService} from "../../core/services/state.service";
 import {TodoItem} from "../../core/models/todo-item";
+import {FormControl, Validators} from "@angular/forms";
+import {TodoListValidators} from "../../validators/todo-list-validators";
 
 @Component({
   selector: 'app-list',
@@ -16,8 +18,13 @@ export class ListComponent implements OnInit {
   listId!: number;
 
   todoItems$!: Observable<TodoItem[]>;
+  todoItemControl: FormControl;
+
+  isDeletionConfirm: boolean;
 
   constructor(private stateService: StateService, private router: Router, private route: ActivatedRoute) {
+    this.todoItemControl = new FormControl<string>('', [Validators.required, Validators.minLength(5), TodoListValidators.containsMinWordsValidation(3)]);
+    this.isDeletionConfirm = false;
   }
 
   ngOnInit(): void {
@@ -49,7 +56,19 @@ export class ListComponent implements OnInit {
     await this.router.navigate(['lists', listId, 'edit']);
   }
 
-  async markAsCompletedItem(itemId: number): Promise<void>{
+  async markAsCompletedItem(itemId: number): Promise<void> {
     await this.stateService.markAsCompleted(itemId);
   }
+
+  async addTodoItem(listId: number): Promise<void>{
+    const caption: string = this.todoItemControl.value;
+    await this.stateService.addTodoItem(listId, caption);
+
+    this.todoItemControl.setValue('');
+  }
+
+  isDeleteConfirm(): void{
+    this.isDeletionConfirm = !this.isDeletionConfirm;
+  }
+
 }
