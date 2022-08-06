@@ -1,73 +1,70 @@
 <ng-container *ngIf="{
-  todoList: todoList$ | async,
-  selectedColor: selectedColor$ | async
+todoList: todoList$ | async,
+selectedColor: selectedColor$ | async
 } as myObs">
+  <div class="todo-list-header">
+    <h1>Edit List Details</h1>
+  </div>
 
-  <h2>Edit List Details</h2>
-
-  <div class="edit-list-form" [formGroup]="todoListGroup">
-    <div *ngIf="control('caption') as field">
-      <label>Caption:</label>
-      <input type="text" [formControl]="field">
+  <div class="todo-list-edit-form-container">
+    <div class="form-field" *ngIf="control('caption') as field">
+      <h3>Caption: </h3>
+      <input type="text" maxlength="75" [formControl]="field">
       <app-errors-presenter *ngIf="field.dirty" [errors]="field.errors"></app-errors-presenter>
     </div>
 
-    <div *ngIf="control('description') as field">
-      <label>Description:</label>
-      <input type="text" [formControl]="field">
-      <div class="error-display-container">
-        <app-errors-presenter *ngIf="field.dirty" [errors]="field.errors"></app-errors-presenter>
-      </div>
+    <div class="form-field form-text-area-field" *ngIf="control('description') as field">
+      <h3>Description: </h3>
+      <textarea type="text" rows="4" [formControl]="field"></textarea>
+      <app-errors-presenter *ngIf="field.dirty" [errors]="field.errors"></app-errors-presenter>
     </div>
 
-    <label>Icon:</label>
-    <mat-select #selectedIcon
-                disableOptionCentering
-                panelClass="myPanelClass"
-                *ngIf="control('icon') as field" [formControl]="field">
+    <div class="form-field" *ngIf="control('icon') as field">
+      <h3>Icon: </h3>
+      <mat-select #selectedIcon
+                  disableOptionCentering
+                  panelClass="myPanelClass"
+                  *ngIf="control('icon') as field" [formControl]="field">
 
-      <mat-select-trigger>
-        <mat-icon [style.color]="myObs.selectedColor">{{selectedIcon.value}}</mat-icon>
-      </mat-select-trigger>
+        <mat-select-trigger>
+          <mat-icon [style.color]="myObs.selectedColor">{{selectedIcon.value}}</mat-icon>
+        </mat-select-trigger>
 
-      <mat-option *ngFor="let icon of icons" value="{{icon}}">
-        <mat-icon [style.color]="myObs.selectedColor">{{icon}}</mat-icon>
-      </mat-option>
+        <mat-option *ngFor="let icon of icons" value="{{icon}}">
+          <mat-icon [style.color]="myObs.selectedColor">{{icon}}</mat-icon>
+        </mat-option>
 
-    </mat-select>
+      </mat-select>
+      <app-errors-presenter *ngIf="field.dirty" [errors]="field.errors"></app-errors-presenter>
+    </div>
+    <div class="form-field" *ngIf="control('icon') as field">
+      <h3>Color: </h3>
+      <select #selectedColor
+              *ngIf="control('color') as field"
+              [style.color]="myObs.selectedColor"
+              (change)="selectedColor$.next(selectedColor.value)"
+              [formControl]="field">
 
-    <label>Color:</label>
-    <select #selectedColor
-            *ngIf="control('color') as field"
-            [style.color]="myObs.selectedColor"
-            (change)="selectedColor$.next(selectedColor.value)"
-            [formControl]="field">
+        <option *ngFor="let color of colors"
+                [style.color]="color.code"
+                value="{{color.code}}">
+          {{color.name}}
+        </option>
 
-      <option *ngFor="let color of colors"
-              [style.color]="color.code"
-              value="{{color.code}}">
-        {{color.name}}
-      </option>
+      </select>
+      <app-errors-presenter *ngIf="field.dirty" [errors]="field.errors"></app-errors-presenter>
+    </div>
 
-    </select>
+    <div class="form-btn">
+      <button class="save-btn"
+              [class.save-btn-hover]="todoListGroup.valid"
+              [class.save-btn-active]="todoListGroup.valid"
+              [disabled]="!todoListGroup.valid"
+              (click)="saveTodoList()">
+        Save
+      </button>
+    </div>
 
-    <button [disabled]="!todoListGroup.valid" class="save-btn" (click)="saveTodoList()">Save</button>
+
   </div>
-
-
 </ng-container>
-
-
-<!--<div class="todo-list-header">title</div>
-  <div class="todo-list-edit-form-container">
-    <div class="form-field">
-      <h3 class="field-name">Caption:</h3>
-      <input type="text">
-    </div>
-    <div class="form-field">
-      <h3 class="field-name">Caption:</h3>
-      <input type="text">
-    </div>
-
-
-  </div>-->

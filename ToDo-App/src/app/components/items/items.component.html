@@ -2,7 +2,7 @@
   uncompletedItems: uncompletedItems$ | async,
   isListEmpty: isListEmpty$ | async
 } as myObs">
-  <h2>Active Items</h2>
+  <h1>Active Items</h1>
   <div class="todo-list-items" *ngIf="!myObs.isListEmpty">
     <app-todo-item-presenter *ngFor="let item of myObs.uncompletedItems"
                              [caption]="item.caption"

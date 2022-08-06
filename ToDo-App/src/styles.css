@@ -16,8 +16,16 @@ body {
   display: grid;
 }
 
+h1 {
+  flex-direction: row;
+  justify-content: flex-end;
+  color: orange;
+  padding: 5px;
+}
+
 h2 {
   flex-direction: row;
   justify-content: flex-end;
   color: orange;
+  padding: 5px;
 }

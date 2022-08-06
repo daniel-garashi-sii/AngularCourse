@@ -6,7 +6,7 @@
 
   <div class="todo-list-details-container">
     <div class="todo-list-caption">
-      <h2 [style.color]="myObs.todoList?.color">Lists > {{ myObs.todoList?.caption}}</h2>
+      <h1 [style.color]="myObs.todoList?.color">Lists > {{ myObs.todoList?.caption}}</h1>
     </div>
     <div class="todo-list-icon-desc-actions-container">
       <div class="todo-list-icon">
@@ -28,8 +28,8 @@
             Are you sure you want to delete the entire list?
           </div>
           <div class="todo-list-actions">
-            <button class="delete-btn" (click)="checkAgainBeforeDeletion()">Cancel</button>
-            <button (click)="deleteList(myObs.todoList!.id)">Yes I am sure</button>
+            <button (click)="checkAgainBeforeDeletion()">Cancel</button>
+            <button class="delete-btn" (click)="deleteList(myObs.todoList!.id)">Yes I am sure</button>
           </div>
         </ng-container>
       </div>
@@ -46,6 +46,7 @@
       <div class="add-todo-item add-todo-item-container">
         <input [formControl]="todoItemControl" type="text">
         <button
+          [class.add-todo-item-enabled]="todoItemControl.valid"
           [disabled]="!todoItemControl.valid"
           (click)="addTodoItem(myObs.todoList!.id, todoItemControl.value)">
           +

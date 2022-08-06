@@ -62,7 +62,6 @@ export class ListComponent implements OnInit {
   }
 
   async markAsCompletedItem(itemId: number): Promise<void> {
-    debugger;
     await this.stateService.markAsCompleted(itemId);
   }
 
