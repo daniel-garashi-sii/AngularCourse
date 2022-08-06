@@ -1,6 +1,7 @@
 <ng-container *ngIf="{
   todoList: todoList$ | async,
-  todoItems: todoItems$ | async
+  todoItems: todoItems$ | async,
+  isCanDelete: isCanDelete$ | async
 } as myObs">
 
   <div class="todo-list-details-container">
@@ -12,7 +13,7 @@
         <mat-icon [style.color]="myObs.todoList?.color">{{myObs.todoList?.icon}}</mat-icon>
       </div>
       <div class="todo-list-desc-actions-container">
-        <ng-container *ngIf="!isCanDelete">
+        <ng-container *ngIf="!myObs.isCanDelete">
           <div class="todo-list-description">
             {{myObs.todoList?.description}}
           </div>
@@ -22,7 +23,7 @@
             <button class="delete-btn" (click)="checkAgainBeforeDeletion()">Delete</button>
           </div>
         </ng-container>
-        <ng-container *ngIf="isCanDelete">
+        <ng-container *ngIf="myObs.isCanDelete">
           <div class="todo-list-description deletion-confirm-msg">
             Are you sure you want to delete the entire list?
           </div>
@@ -46,10 +47,10 @@
         <input [formControl]="todoItemControl" type="text">
         <button
           [disabled]="!todoItemControl.valid"
-          (click)="addTodoItem(myObs.todoList!.id)">
+          (click)="addTodoItem(myObs.todoList!.id, todoItemControl.value)">
           +
         </button>
-        <app-errors-presenter [errors]="todoItemControl.errors"></app-errors-presenter>
+        <app-errors-presenter *ngIf="todoItemControl.dirty" [errors]="todoItemControl.errors"></app-errors-presenter>
       </div>
     </div>
   </div>

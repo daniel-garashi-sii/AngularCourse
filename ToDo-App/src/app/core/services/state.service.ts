@@ -10,8 +10,8 @@ import {TodoItem} from "../models/todo-item";
 })
 export class StateService {
   /*Need to change that for uuid */
-  private static generatedTodoListId = 4;
-  private static generatedTodoItemId = 0;
+  private static generatedTodoListId = 6;
+  private static generatedTodoItemId = 13;
 
   private appState!: AppState;
   private appState$!: BehaviorSubject<AppState>;

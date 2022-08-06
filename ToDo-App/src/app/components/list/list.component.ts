@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {map} from "rxjs/operators";
-import {Observable, switchAll} from "rxjs";
+import {BehaviorSubject, Observable, switchAll} from "rxjs";
 import {TodoList} from "../../core/models/todo-list";
 import {StateService} from "../../core/services/state.service";
 import {TodoItem} from "../../core/models/todo-item";
@@ -19,12 +19,13 @@ export class ListComponent implements OnInit {
 
   todoItems$!: Observable<TodoItem[]>;
   todoItemControl: FormControl;
-
-  isCanDelete: boolean;
+  private isCanDelete: boolean;
+  isCanDelete$!: BehaviorSubject<boolean>;
 
   constructor(private stateService: StateService, private router: Router, private route: ActivatedRoute) {
-    this.todoItemControl = new FormControl<string>('', [Validators.required, Validators.minLength(5), TodoListValidators.containsMinWordsValidation(3)]);
+    this.todoItemControl = new FormControl<string>('', [Validators.required, TodoListValidators.minCharactersValidation(5), TodoListValidators.containsMinWordsValidation(3)]);
     this.isCanDelete = false;
+    this.isCanDelete$ = new BehaviorSubject<boolean>(this.isCanDelete);
   }
 
   ngOnInit(): void {
@@ -43,6 +44,10 @@ export class ListComponent implements OnInit {
     );
   }
 
+  get getIsCanDelete$(){
+    return this.isCanDelete$.asObservable();
+  }
+
   async createNewList(): Promise<void> {
     await this.router.navigate(['lists', -1, 'edit']);
   }
@@ -57,18 +62,19 @@ export class ListComponent implements OnInit {
   }
 
   async markAsCompletedItem(itemId: number): Promise<void> {
+    debugger;
     await this.stateService.markAsCompleted(itemId);
   }
 
-  async addTodoItem(listId: number): Promise<void>{
-    const caption: string = this.todoItemControl.value;
+  async addTodoItem(listId: number, caption: string): Promise<void>{
     await this.stateService.addTodoItem(listId, caption);
 
-    this.todoItemControl.setValue('');
+    this.todoItemControl.reset('');
   }
 
   checkAgainBeforeDeletion(): void{
     this.isCanDelete = !this.isCanDelete;
+    this.isCanDelete$.next(this.isCanDelete);
   }
 
 }

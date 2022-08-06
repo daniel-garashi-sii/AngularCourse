@@ -9,14 +9,14 @@
     <div *ngIf="control('caption') as field">
       <label>Caption:</label>
       <input type="text" [formControl]="field">
-      <app-errors-presenter [errors]="field.errors"></app-errors-presenter>
+      <app-errors-presenter *ngIf="field.dirty" [errors]="field.errors"></app-errors-presenter>
     </div>
 
     <div *ngIf="control('description') as field">
       <label>Description:</label>
       <input type="text" [formControl]="field">
       <div class="error-display-container">
-        <app-errors-presenter [errors]="field.errors"></app-errors-presenter>
+        <app-errors-presenter *ngIf="field.dirty" [errors]="field.errors"></app-errors-presenter>
       </div>
     </div>
 
@@ -25,12 +25,15 @@
                 disableOptionCentering
                 panelClass="myPanelClass"
                 *ngIf="control('icon') as field" [formControl]="field">
+
       <mat-select-trigger>
         <mat-icon [style.color]="myObs.selectedColor">{{selectedIcon.value}}</mat-icon>
       </mat-select-trigger>
+
       <mat-option *ngFor="let icon of icons" value="{{icon}}">
         <mat-icon [style.color]="myObs.selectedColor">{{icon}}</mat-icon>
       </mat-option>
+
     </mat-select>
 
     <label>Color:</label>
@@ -39,11 +42,13 @@
             [style.color]="myObs.selectedColor"
             (change)="selectedColor$.next(selectedColor.value)"
             [formControl]="field">
+
       <option *ngFor="let color of colors"
               [style.color]="color.code"
               value="{{color.code}}">
         {{color.name}}
       </option>
+
     </select>
 
     <button [disabled]="!todoListGroup.valid" class="save-btn" (click)="saveTodoList()">Save</button>

@@ -65,7 +65,7 @@ export class ListEditComponent implements OnInit {
   buildReactiveForm(): void {
     this.todoListGroup = this.formBuilder.group({
       caption: ['', [Validators.required]],
-      description: ['', [Validators.required, Validators.minLength(6), TodoListValidators.containsMinWordsValidation(2)]],
+      description: ['', [Validators.required, TodoListValidators.minCharactersValidation(5), TodoListValidators.containsMinWordsValidation(3)]],
       icon: ['', [Validators.required]],
       color: ['', [Validators.required]]
     });

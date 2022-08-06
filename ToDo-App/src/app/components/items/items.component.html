@@ -1,1 +1,18 @@
-<p>items works!</p>
+<ng-container *ngIf="{
+  uncompletedItems: uncompletedItems$ | async,
+  isListEmpty: isListEmpty$ | async
+} as myObs">
+  <h2>Active Items</h2>
+  <div class="todo-list-items" *ngIf="!myObs.isListEmpty">
+    <app-todo-item-presenter *ngFor="let item of myObs.uncompletedItems"
+                             [caption]="item.caption"
+                             [isCompleted]="item.isCompleted"
+                              (completedEmitter)="markAsCompleted(item.id)">
+    </app-todo-item-presenter>
+  </div>
+  <div *ngIf="myObs.isListEmpty">
+    <h3>
+      You do not have any uncompleted todo items
+    </h3>
+  </div>
+</ng-container>
