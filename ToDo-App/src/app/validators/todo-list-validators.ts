@@ -1,4 +1,7 @@
 import {AbstractControl, FormGroup, ValidationErrors, ValidatorFn} from "@angular/forms";
+import {Color} from "../core/models/color";
+import {COLORS} from "../core/models/colors";
+import {ICONS} from "../core/models/icons";
 
 export class TodoListValidators {
   public static containsMinWordsValidation(minWords: number): (control: AbstractControl) => null | ValidationErrors {
@@ -47,12 +50,15 @@ export class TodoListValidators {
     }
   }
 
-  public static iconAndColorValidation_1(icon: string, color: string): ValidatorFn {
+  public static iconAndColorValidation(icon: string, color: Color): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const iconControl = control.get(icon);
-      const colorControl = control.get(color);
+      if (!(control instanceof FormGroup)) return null;
 
-      console.log('icon = flag, color = red');
+      const icons: string[] = ICONS;
+      const colors: Color[] = COLORS;
+
+      const iconControl = control.get('icon');
+      const colorControl = control.get('color');
 
       if (typeof (iconControl?.value) !== "string") return null;
       if (typeof (colorControl?.value) !== "string") return null;
@@ -60,38 +66,17 @@ export class TodoListValidators {
       const iconVal: string = iconControl?.value;
       const colorVal: string = colorControl?.value;
 
-      console.log('icon = flag, color = red');
-
-      if (!(iconVal === icon && colorVal === color)) return null;
+      if (!icons.includes(icon) || !icons.includes(iconVal)) return null;
+      if (!colors.some(c => c.code === color.code)) return null;
+      
+      if (!(iconVal === icon && colorVal === color.code)) return null;
 
       return {
         'invalidMatchIconAndColor': {
           iconName: icon,
-          colorName: color
+          colorName: color.name
         }
-      }
+      };
     };
   }
-
-  public static iconAndColorValidation(formGroup: FormGroup){
-    debugger;
-    const iconControl = formGroup.get('icon');
-    const colorControl = formGroup.get('color');
-
-    const icon = iconControl?.value;
-    const color = colorControl?.value;
-
-    if(typeof(icon) !== "string") return null;
-    if(typeof(color) !== "string") return null;
-
-    if(!(icon === 'flag' && color === '#FFFF00FF')) return null;
-
-    return {
-      'invalidMatchIconAndColor': {
-        iconName: 'flag',
-        colorName: 'red'
-      }
-    };
-  }
-
 }

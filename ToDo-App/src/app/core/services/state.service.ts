@@ -141,8 +141,8 @@ export class StateService {
 
   async modifyList(list: TodoList): Promise<void> {
     this.appState = {
+      ...this.appState,
       todoLists: this.appState.todoLists.map(todoList => todoList.id !== list.id ? todoList : list),
-      todoItems: [...this.appState.todoItems]
     };
     this.appState$.next(this.appState);
   }

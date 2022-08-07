@@ -57,7 +57,7 @@ export class ListEditComponent implements OnInit, OnDestroy {
         if (todoList != null) {
           this.selectedColor = todoList.color;
           this.selectedColor$.next(this.selectedColor);
-
+          //change this
           this.control('caption')?.setValue(todoList.caption);
           this.control('description')?.setValue(todoList.description);
           this.control('icon')?.setValue(todoList.icon);
@@ -78,7 +78,9 @@ export class ListEditComponent implements OnInit, OnDestroy {
         description: ['',[Validators.required, TodoListValidators.minCharactersValidation(5), TodoListValidators.containsMinWordsValidation(3)]],
         icon: ['', [Validators.required]],
         color: ['', [Validators.required]]
-      }, {validators: [TodoListValidators.iconAndColorValidation]});
+      },
+      {validators: [TodoListValidators.iconAndColorValidation('flag', {name: 'red', code: '#FF0000FF'})]}
+    );
   }
 
   control(name: string): FormControl<any> {
@@ -105,7 +107,10 @@ export class ListEditComponent implements OnInit, OnDestroy {
   }
 
   async saveTodoList(): Promise<void> {
-    const todoList: TodoList = {id: this.listId, ...this.todoListGroup.value};
+    const todoList: TodoList = {
+      id: this.listId,
+      ...this.todoListGroup.value
+    };
 
     if (this.listId === -1) {
       await this.stateService.addList(todoList.caption, todoList.description, todoList.color, todoList.icon);

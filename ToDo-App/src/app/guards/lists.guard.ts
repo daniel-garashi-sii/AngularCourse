@@ -17,7 +17,7 @@ export class ListsGuard implements CanActivate {
     const todoLists: TodoList[] = await firstValueFrom(this.stateService.getAllLists());
 
     if (todoLists == null || todoLists.length === 0) {
-      return await this.router.navigateByUrl(`lists/-1/edit`);
+      return this.router.createUrlTree(['lists/-1/edit']);
     }
 
     return true;

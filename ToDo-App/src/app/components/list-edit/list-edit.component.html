@@ -69,9 +69,10 @@ todoLists: todoLists$ | async
 
       </select>
       <app-errors-presenter *ngIf="field.dirty" [errors]="field.errors"></app-errors-presenter>
-      <app-errors-presenter *ngIf="field.dirty" [errors]="todoListGroup.errors"></app-errors-presenter>
     </div>
-
+    <div class="group-errors-presenter">
+      <app-errors-presenter [errors]="todoListGroup.errors"></app-errors-presenter>
+    </div>
     <div class="form-btn">
       <button class="save-btn"
               [class.save-btn-hover]="todoListGroup.valid"
