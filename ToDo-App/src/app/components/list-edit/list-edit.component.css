@@ -6,7 +6,16 @@
 }
 
 .todo-list-header {
+  display: grid;
+  grid-template-columns: 0.5fr 0.5fr;
   grid-column-start: 1;
+  grid-column-end: -1;
+}
+
+.combobox {
+  margin: 5px;
+  border: 2px solid black;
+  grid-column-start: 2;
   grid-column-end: -1;
 }
 

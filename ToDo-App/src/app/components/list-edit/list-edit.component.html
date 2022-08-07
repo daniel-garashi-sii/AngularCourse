@@ -1,9 +1,25 @@
 <ng-container *ngIf="{
 todoList: todoList$ | async,
-selectedColor: selectedColor$ | async
+selectedColor: selectedColor$ | async,
+todoLists: todoLists$ | async
 } as myObs">
+
   <div class="todo-list-header">
     <h1>Edit List Details</h1>
+
+    <select #combobox
+            class="combobox"
+            (change)="toTodoList(combobox.value)"
+    [disabled]="todoListGroup.dirty">
+      <option [disabled]="true"></option>
+      <option *ngFor="let todoList of myObs.todoLists"
+              [disabled]="listId === todoList.id"
+              [selected]="listId === todoList.id"
+              [value]="todoList.id">
+        {{todoList.caption}}
+      </option>
+    </select>
+
   </div>
 
   <div class="todo-list-edit-form-container">
@@ -53,6 +69,7 @@ selectedColor: selectedColor$ | async
 
       </select>
       <app-errors-presenter *ngIf="field.dirty" [errors]="field.errors"></app-errors-presenter>
+      <app-errors-presenter *ngIf="field.dirty" [errors]="todoListGroup.errors"></app-errors-presenter>
     </div>
 
     <div class="form-btn">

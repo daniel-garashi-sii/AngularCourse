@@ -4,6 +4,8 @@ import {Observable} from "rxjs";
 import {AppState} from "../../core/models/app.state";
 import {Router} from "@angular/router";
 import {TodoItem} from "../../core/models/todo-item";
+import {map} from "rxjs/operators";
+import {TodoList} from "../../core/models/todo-list";
 
 @Component({
   selector: 'app-home',
@@ -16,6 +18,9 @@ export class HomeComponent implements OnInit {
   today!: number;
 
   appState$!: Observable<AppState>;
+  allToDoListsCount$!: Observable<number>;
+  allITodoItemsCount$! : Observable<number>;
+  allNotCompletedItemsCount$!: Observable<number>;
 
   constructor(private stateService: StateService, private router: Router) {
   }
@@ -23,6 +28,22 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.today = Date.now();
     this.appState$ = this.stateService.getAppState$;
+    this.allToDoListsCount$ = this.getAllTodoLists().pipe(
+      map(todoLists => todoLists.length)
+    );
+    this.allITodoItemsCount$ = this.getAllTodoItems().pipe(
+      map(todoItems => todoItems.length)
+    );
+    this.allNotCompletedItemsCount$ = this.getAllNotCompletedItems().pipe(
+      map(todoItems => todoItems.length)
+    );
+  }
+  getAllTodoItems(): Observable<TodoItem[]> {
+    return this.stateService.getAllItems();
+  }
+
+  getAllTodoLists(): Observable<TodoList[]> {
+    return this.stateService.getAllLists();
   }
 
   getAllNotCompletedItems(): Observable<TodoItem[]> {

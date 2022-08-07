@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {StateService} from "../../core/services/state.service";
 import {TodoList} from "../../core/models/todo-list";
-import {BehaviorSubject, Observable, switchAll} from "rxjs";
+import {BehaviorSubject, filter, Observable, Subscription, switchAll} from "rxjs";
 import {map} from "rxjs/operators";
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {Color} from "../../core/models/color";
@@ -15,17 +15,20 @@ import {TodoListValidators} from "../../validators/todo-list-validators";
   templateUrl: './list-edit.component.html',
   styleUrls: ['./list-edit.component.css']
 })
-export class ListEditComponent implements OnInit {
+export class ListEditComponent implements OnInit, OnDestroy {
   readonly colors: Color[] = COLORS;
   readonly icons: String[] = ICONS;
 
-  todoListToEdit!: TodoList;
   listId!: number;
   todoList$!: Observable<TodoList>;
   todoListGroup!: FormGroup;
 
   selectedColor!: string;
   selectedColor$!: BehaviorSubject<string>;
+
+  todoLists$!: Observable<TodoList[]>;
+
+  private subscriptions = new Subscription();
 
   constructor(private stateService: StateService, private route: ActivatedRoute, private router: Router, private formBuilder: FormBuilder) {
     this.buildReactiveForm();
@@ -34,6 +37,8 @@ export class ListEditComponent implements OnInit {
   ngOnInit(): void {
     this.selectedColor = this.colors[0].code;
     this.selectedColor$ = new BehaviorSubject<string>(this.selectedColor);
+
+    this.todoLists$ = this.stateService.getAllLists();
 
     const listId$ = this.route.params.pipe(
       map(param => Number(param['id']))
@@ -47,7 +52,7 @@ export class ListEditComponent implements OnInit {
       switchAll()
     );
 
-    this.todoList$.subscribe({
+    const todoListSubscription: Subscription = this.todoList$.subscribe({
       next: todoList => {
         if (todoList != null) {
           this.selectedColor = todoList.color;
@@ -60,15 +65,20 @@ export class ListEditComponent implements OnInit {
         }
       }
     });
+    this.subscriptions.add(todoListSubscription);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   buildReactiveForm(): void {
     this.todoListGroup = this.formBuilder.group({
-      caption: ['', [Validators.required]],
-      description: ['', [Validators.required, TodoListValidators.minCharactersValidation(5), TodoListValidators.containsMinWordsValidation(3)]],
-      icon: ['', [Validators.required]],
-      color: ['', [Validators.required]]
-    });
+        caption: ['', [Validators.required]],
+        description: ['',[Validators.required, TodoListValidators.minCharactersValidation(5), TodoListValidators.containsMinWordsValidation(3)]],
+        icon: ['', [Validators.required]],
+        color: ['', [Validators.required]]
+      }, {validators: [TodoListValidators.iconAndColorValidation]});
   }
 
   control(name: string): FormControl<any> {
@@ -95,13 +105,7 @@ export class ListEditComponent implements OnInit {
   }
 
   async saveTodoList(): Promise<void> {
-    const todoList: TodoList = {
-      id: this.listId,
-      caption: this.control('caption').value,
-      description: this.control('description').value,
-      icon: this.control('icon').value,
-      color: this.control('color').value
-    };
+    const todoList: TodoList = {id: this.listId, ...this.todoListGroup.value};
 
     if (this.listId === -1) {
       await this.stateService.addList(todoList.caption, todoList.description, todoList.color, todoList.icon);
@@ -111,6 +115,12 @@ export class ListEditComponent implements OnInit {
 
     this.todoListGroup.reset();
     await this.router.navigateByUrl('lists');
+  }
+
+  async toTodoList(listIdAsString: string): Promise<void> {
+    const listId: number = Number(listIdAsString);
+
+    await this.router.navigate(['lists', listId, 'edit']);
   }
 
 }

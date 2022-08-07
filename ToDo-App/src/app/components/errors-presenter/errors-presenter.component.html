@@ -5,5 +5,6 @@
   <div *ngIf="errors['minlength'] as err">Letters: {{err.actualLength}} / {{err.requiredLength}}</div>
   <div *ngIf="errors['minCharacters'] as err">Letters: {{err.actualCharacters}} / {{err.requiredMinCharacters}}</div>
   <div *ngIf="errors['minWords'] as err">Words: {{err.actualWords}} / {{err.requiredMinWords}}</div>
+  <div *ngIf="errors['invalidMatchIconAndColor'] as err">Invalid match icon and color: {{err.iconName}}-{{err.colorName}}</div>
 
 </div>
